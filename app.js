@@ -15,8 +15,11 @@ const secret = process.env.WEBHOOK_SECRET
 const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
 const messageForNewPRs = fs.readFileSync('./message.md', 'utf8')
 
+
 // Create an authenticated Octokit client authenticated as a GitHub App
 const app = new App({
+
+
   appId,
   privateKey,
   webhooks: {
@@ -29,11 +32,7 @@ const app = new App({
   })
 })
 
-// Optional: Get & log the authenticated app's name
-const { data } = await app.octokit.request('/app')
 
-// Read more about custom logging: https://github.com/octokit/core.js#logging
-app.octokit.log.debug(`Authenticated as '${data.name}'`)
 
 // Subscribe to the "pull_request.opened" webhook event
 app.webhooks.on('pull_request.opened', async ({ octokit, payload }) => {
@@ -54,6 +53,8 @@ app.webhooks.on('pull_request.opened', async ({ octokit, payload }) => {
   }
 })
 
+
+
 // Optional: Handle errors
 app.webhooks.onError((error) => {
   if (error.name === 'AggregateError') {
@@ -63,6 +64,8 @@ app.webhooks.onError((error) => {
     console.log(error)
   }
 })
+
+
 
 
 // Launch a web server to listen for GitHub webhooks
