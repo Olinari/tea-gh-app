@@ -35,7 +35,7 @@ export default class OpenAIService implements IOpenAIService {
       messages: [
         {
           role: "system",
-          content: "You are a helpful assistant",
+          content: "You are a helpful assistant.",
         },
         {
           role: "user",
