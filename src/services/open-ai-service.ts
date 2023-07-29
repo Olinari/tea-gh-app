@@ -37,7 +37,7 @@ export default class OpenAIService implements IOpenAIService {
           role: "system",
           content: "You are a helpful assistant.",
         },
-        {
+        /*  {
           role: "user",
           content:
             "Given the following line of code, generate a possible corresponding JIRA ticket, in json format of the  structure: {title:...,description:...,acceptanceCriteria:...} ",
@@ -45,7 +45,7 @@ export default class OpenAIService implements IOpenAIService {
         {
           role: "user",
           content: JSON.stringify(code),
-        },
+        },*/
       ],
       model: "gpt-3.5-turbo",
     });
