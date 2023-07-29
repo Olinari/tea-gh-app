@@ -23,8 +23,8 @@ const app = new App({
     secret
   },
 })
-
-
+app.webhooks.onAny( ({ id, name, payload }) => {
+    console.log(name, 'event received');});
 
 app.webhooks.on('pull_request.opened', async ({ octokit, payload }) => {
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
