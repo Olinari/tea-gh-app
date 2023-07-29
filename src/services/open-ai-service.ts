@@ -31,6 +31,7 @@ export default class OpenAIService implements IOpenAIService {
   };
 
   explainCode = async ({ code }: { code: string }) => {
+    console.log(code);
     const { data } = await this.api.post("/chat/completions", {
       messages: [
         {
@@ -42,10 +43,10 @@ export default class OpenAIService implements IOpenAIService {
           content:
             "Given the following line of code, generate a possible corresponding JIRA ticket, in json format of the  structure: {title:...,description:...,acceptanceCriteria:...} ",
         },
-        {
+        /* {
           role: "user",
           content: code,
-        },
+        },*/
       ],
       model: "gpt-3.5-turbo",
     });
