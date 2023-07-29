@@ -1,4 +1,4 @@
-import ApiProvider, { IApiProvider } from "@src/api-provider/api-provider";
+import ApiProvider, { IApiProvider } from "../api-provider/api-provider";
 
 interface IGithubService {
   getRepos: () => Promise<any>;
@@ -32,9 +32,12 @@ class GithubService implements IGithubService {
   };
 }
 
+if (!process.env.GITHUB_API_URL)
+  throw new Error("GITHUB_API_URL is not defined");
+
 const api = new ApiProvider({
-  baseURL: import.meta.env.VITE_GITHUB_API_URL,
-  authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+  baseURL: process.env.GITHUB_API_URL,
+  authorization: `token ${process.env.GITHUB_TOKEN}`,
 });
 
 export default new GithubService(api.client);
