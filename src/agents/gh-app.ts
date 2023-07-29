@@ -41,7 +41,7 @@ class GitHubApp {
       "pull_request.opened",
       async ({ octokit, payload }) => {
         console.log(
-          `Received a pull request event for #${payload.pull_request.number}`,
+          `Received a pull request event for #${payload.pull_request.number}`
         );
 
         try {
@@ -54,13 +54,13 @@ class GitHubApp {
         } catch (error) {
           if (error.response) {
             console.error(
-              `Error! Status: ${error.response.status}. Message: ${error.response.data.message}`,
+              `Error!! Status: ${error.response.status}. Message: ${error.response.data.message}`
             );
           } else {
             console.error(error);
           }
         }
-      },
+      }
     );
 
     this.app.webhooks.onError((error) => {
