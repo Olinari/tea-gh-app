@@ -32,6 +32,7 @@ export default class ApiProvider implements IApiProvider {
   }
 
   post(path: string, payload: any) {
+    console.log(path);
     return this.client.post(path, payload).then((response) => response.data);
   }
 

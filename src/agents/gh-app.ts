@@ -50,12 +50,14 @@ class GitHubApp {
 
         const comment = await this.openAi.explainCode({ code: diff.data });
 
+        console.log(fs.readFileSync(this.messagePath, "utf8"));
+
         try {
           await octokit.rest.issues.createComment({
             owner: payload.repository.owner.login,
             repo: payload.repository.name,
             issue_number: payload.pull_request.number,
-            body: comment,
+            body: comment.description,
           });
         } catch (error) {
           if (error.response) {

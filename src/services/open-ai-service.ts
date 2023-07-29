@@ -31,11 +31,11 @@ export default class OpenAIService implements IOpenAIService {
   };
 
   explainCode = async ({ code }: { code: string }) => {
-    const { data } = await this.api.post("/chat/completions", {
+    const data = await this.api.post("/chat/completions", {
       messages: [
         {
           role: "system",
-          content: "You are a helpful assistant",
+          content: "You are a helpful assistant.",
         },
         {
           role: "user",
@@ -44,11 +44,12 @@ export default class OpenAIService implements IOpenAIService {
         },
         {
           role: "user",
-          content: code,
+          content: JSON.stringify(code),
         },
       ],
       model: "gpt-3.5-turbo",
     });
+
     return JSON.parse(data.choices?.[0].message.content);
   };
 }
