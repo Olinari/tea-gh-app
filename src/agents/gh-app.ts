@@ -51,6 +51,7 @@ class GitHubApp {
         const comment = await this.openAi.explainCode({ code: diff.data });
 
         console.log(comment);
+        console.log(comment);
 
         try {
           await octokit.rest.issues.createComment({
