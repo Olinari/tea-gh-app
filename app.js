@@ -31,7 +31,7 @@ const app = new App({
 
 
 
-// Subscribe to the "pull_request.opened" webhook event
+
 app.webhooks.on('pull_request.opened', async ({ octokit, payload }) => {
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
   try {
