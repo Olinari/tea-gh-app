@@ -42,6 +42,7 @@ app.webhooks.on("pull_request.opened", async ({ octokit, payload }) => {
   );
 
   console.log(payload);
+
   try {
     await octokit.rest.issues.createComment({
       owner: payload.repository.owner.login,
