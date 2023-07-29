@@ -48,6 +48,10 @@ class GitHubApp {
         );
         const diff = await axios.get(payload.pull_request.diff_url);
 
+        console.log(diff, diff.data);
+
+        return;
+
         const comment = await this.openAi.explainCode({ code: diff.data });
 
         try {
