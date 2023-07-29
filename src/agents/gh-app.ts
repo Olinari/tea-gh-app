@@ -57,7 +57,7 @@ class GitHubApp {
             owner: payload.repository.owner.login,
             repo: payload.repository.name,
             issue_number: payload.pull_request.number,
-            body: JSON.stringify(comment),
+            body: comment.description,
           });
         } catch (error) {
           if (error.response) {
