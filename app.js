@@ -69,7 +69,7 @@ const port = process.env.PORT || 3000
 const path = '/api/webhook'
 const localWebhookUrl = `http://localhost:${port}${path}`
 
-// See https://github.com/octokit/webhooks.js/#createnodemiddleware for all options
+
 const middleware = createNodeMiddleware(app.webhooks, { path })
 
 http.createServer(middleware).listen(port, () => {
