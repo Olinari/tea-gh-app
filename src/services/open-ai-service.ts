@@ -51,6 +51,7 @@ export default class OpenAIService implements IOpenAIService {
     });
 
     console.log(data);
+
     return JSON.parse(data.choices?.[0].message.content);
   };
 }
