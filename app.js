@@ -29,11 +29,7 @@ const app = new App({
   })
 })
 
-// Optional: Get & log the authenticated app's name
-const { data } = await app.octokit.request('/app')
 
-// Read more about custom logging: https://github.com/octokit/core.js#logging
-app.octokit.log.debug(`Authenticated as '${data.name}'`)
 
 // Subscribe to the "pull_request.opened" webhook event
 app.webhooks.on('pull_request.opened', async ({ octokit, payload }) => {
