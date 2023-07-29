@@ -8,7 +8,7 @@ class GitHubApp {
   readonly messageForNewPRs: string;
   readonly appId = process.env.APP_ID;
   readonly privateKey = fs.readFileSync(this.privateKeyPath, "utf8");
-  private app: typeof Ocktokit;
+  private app: Ocktokit;
 
   constructor() {
     if (
