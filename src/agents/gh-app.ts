@@ -11,6 +11,7 @@ class GitHubApp {
   readonly appId = process.env.APP_ID;
   readonly privateKey = fs.readFileSync(this.privateKeyPath, "utf8");
   private app: Ocktokit;
+  private openAi: OpenAIService;
 
   constructor() {
     if (
@@ -30,7 +31,7 @@ class GitHubApp {
         secret: this.webhookSecret,
       },
     });
-
+    this.openAi = new OpenAIService();
     this.initializeWebhooks();
   }
 
@@ -47,7 +48,7 @@ class GitHubApp {
         );
         const diff = await axios.get(payload.pull_request.diff_url);
 
-        const comment = await OpenAIService.explainCode({ code: diff.data });
+        const comment = await this.openAi.explainCode({ code: diff.data });
 
         try {
           await octokit.rest.issues.createComment({

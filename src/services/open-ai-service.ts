@@ -9,11 +9,15 @@ interface IOpenAIService {
   }) => Promise<{ title: string; description: string }>;
 }
 
-class OpenAIService implements IOpenAIService {
+export default class OpenAIService implements IOpenAIService {
   public api: IApiProvider;
 
-  constructor(api: IApiProvider) {
-    this.api = api;
+  constructor() {
+    this.api = new ApiProvider({
+      //@ts-ignore
+      baseURL: process.env.OPENAI_API_URL,
+      authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+    });
   }
 
   getEmbedding = async ({ input }: { input: string }) => {
@@ -48,13 +52,3 @@ class OpenAIService implements IOpenAIService {
     return JSON.parse(data.choices?.[0].message.content);
   };
 }
-
-if (!process.env.OPENAI_API_URL)
-  throw new Error("OPENAI_API_URL is not defined");
-
-const api = new ApiProvider({
-  baseURL: process.env.OPENAI_API_URL,
-  authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-});
-
-export default new OpenAIService(api.client);
