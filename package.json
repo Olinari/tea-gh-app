@@ -4,12 +4,13 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "server": "node app.js",
+    "server": "npx tsc & node dist/app.js",
     "lint": "standard"
   },
   "devDependencies": {
     "smee-client": "^1.2.3",
     "standard": "^17.0.0",
+    "typescript": "^5.1.6",
     "vite": "^4.1.0"
   },
   "dependencies": {
