@@ -50,8 +50,6 @@ class GitHubApp {
 
         console.log(diff, diff.data);
 
-        return;
-
         const comment = await this.openAi.explainCode({ code: diff.data });
 
         try {
