@@ -23,6 +23,8 @@ const app = new App({
     secret
   },
 })
+
+console.log(app.webhooks)
 app.webhooks.onAny( ({ id, name, payload }) => {
     console.log(name, 'event received');});
 
@@ -46,6 +48,7 @@ app.webhooks.on('pull_request.opened', async ({ octokit, payload }) => {
 
 // Optional: Handle errors
 app.webhooks.onError((error) => {
+  console.log(error)
   if (error.name === 'AggregateError') {
     // Log Secret verification errors
     console.log(`Error processing request: ${error.event}`)
