@@ -1,4 +1,4 @@
-import ApiProvider, { IApiProvider } from "@src/api-provider/api-provider";
+import ApiProvider, { IApiProvider } from "../api-provider/api-provider.js";
 
 interface IOpenAIService {
   getEmbedding: ({ input }: { input: string }) => Promise<number[]>;
@@ -49,9 +49,12 @@ class OpenAIService implements IOpenAIService {
   };
 }
 
+if (!process.env.OPENAI_API_URL)
+  throw new Error("OPENAI_API_URL is not defined");
+
 const api = new ApiProvider({
-  baseURL: import.meta.env.VITE_OPENAI_API_URL,
-  authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+  baseURL: process.env.OPENAI_API_URL,
+  authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
 });
 
 export default new OpenAIService(api.client);

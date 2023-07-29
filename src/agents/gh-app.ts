@@ -1,5 +1,7 @@
 import fs from "fs";
 import { App as Ocktokit } from "octokit";
+import axios from "axios";
+import OpenAIService from "../services/open-ai-service.js";
 
 class GitHubApp {
   private privateKeyPath = process.env.PRIVATE_KEY_PATH as string;
@@ -44,12 +46,16 @@ class GitHubApp {
           `Received a pull request event for #${payload.pull_request.number}`
         );
 
+        const diff = await axios.get(payload.pull_request.diff_url);
+
+        const comment = await OpenAIService.explainCode({ code: diff.data });
+
         try {
           await octokit.rest.issues.createComment({
             owner: payload.repository.owner.login,
             repo: payload.repository.name,
             issue_number: payload.pull_request.number,
-            body: this.messageForNewPRs,
+            body: comment,
           });
         } catch (error) {
           if (error.response) {

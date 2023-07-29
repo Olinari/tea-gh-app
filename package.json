@@ -10,8 +10,8 @@
   "devDependencies": {
     "smee-client": "^1.2.3",
     "standard": "^17.0.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.1.0"
+    "typescript": "^5.1.6"
+
   },
   "dependencies": {
     "@octokit/rest": "^20.0.1",
