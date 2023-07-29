@@ -40,7 +40,7 @@ app.webhooks.on("pull_request.opened", async ({ octokit, payload }) => {
     `Received a pull request event for #${payload.pull_request.number}`,
   );
 
-  console.log(payload);
+  console.log('suck my balls');
 
   try {
     await octokit.rest.issues.createComment({
