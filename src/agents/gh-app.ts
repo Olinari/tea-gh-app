@@ -1,5 +1,7 @@
 import fs from "fs";
 import { App as Ocktokit } from "octokit";
+import axios from "axios";
+import OpenAIService from "../services/open-ai-service.js";
 
 class GitHubApp {
   private privateKeyPath = process.env.PRIVATE_KEY_PATH as string;
@@ -9,6 +11,7 @@ class GitHubApp {
   readonly appId = process.env.APP_ID;
   readonly privateKey = fs.readFileSync(this.privateKeyPath, "utf8");
   private app: Ocktokit;
+  private openAi: OpenAIService;
 
   constructor() {
     if (
@@ -28,7 +31,7 @@ class GitHubApp {
         secret: this.webhookSecret,
       },
     });
-
+    this.openAi = new OpenAIService();
     this.initializeWebhooks();
   }
 
@@ -41,26 +44,29 @@ class GitHubApp {
       "pull_request.opened",
       async ({ octokit, payload }) => {
         console.log(
-          `Received a pull request event for #${payload.pull_request.number}`
+          `Received a pull request event for #${payload.pull_request.number}`,
         );
+        const diff = await axios.get(payload.pull_request.diff_url);
+
+        const comment = await this.openAi.explainCode({ code: diff.data });
 
         try {
           await octokit.rest.issues.createComment({
             owner: payload.repository.owner.login,
             repo: payload.repository.name,
             issue_number: payload.pull_request.number,
-            body: this.messageForNewPRs,
+            body: comment,
           });
         } catch (error) {
           if (error.response) {
             console.error(
-              `Error!! Status: ${error.response.status}. Message: ${error.response.data.message}`
+              `Error!! Status: ${error.response.status}. Message: ${error.response.data.message}`,
             );
           } else {
             console.error(error);
           }
         }
-      }
+      },
     );
 
     this.app.webhooks.onError((error) => {

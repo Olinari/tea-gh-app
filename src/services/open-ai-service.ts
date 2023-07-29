@@ -1,4 +1,4 @@
-import ApiProvider, { IApiProvider } from "@src/api-provider/api-provider";
+import ApiProvider, { IApiProvider } from "../api-provider/api-provider.js";
 
 interface IOpenAIService {
   getEmbedding: ({ input }: { input: string }) => Promise<number[]>;
@@ -9,11 +9,15 @@ interface IOpenAIService {
   }) => Promise<{ title: string; description: string }>;
 }
 
-class OpenAIService implements IOpenAIService {
+export default class OpenAIService implements IOpenAIService {
   public api: IApiProvider;
 
-  constructor(api: IApiProvider) {
-    this.api = api;
+  constructor() {
+    this.api = new ApiProvider({
+      //@ts-ignore
+      baseURL: process.env.OPENAI_API_URL,
+      authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+    });
   }
 
   getEmbedding = async ({ input }: { input: string }) => {
@@ -48,10 +52,3 @@ class OpenAIService implements IOpenAIService {
     return JSON.parse(data.choices?.[0].message.content);
   };
 }
-
-const api = new ApiProvider({
-  baseURL: import.meta.env.VITE_OPENAI_API_URL,
-  authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-});
-
-export default new OpenAIService(api.client);
