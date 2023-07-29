@@ -18,7 +18,6 @@ export default class ApiProvider implements IApiProvider {
     baseURL: string;
     authorization: string;
   }) {
-    console.log(baseURL, authorization);
     this.client = axios.create({
       baseURL,
       headers: {

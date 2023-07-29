@@ -44,7 +44,7 @@ export default class OpenAIService implements IOpenAIService {
         },
         {
           role: "user",
-          content: code,
+          content: JSON.stringify(code),
         },
       ],
       model: "gpt-3.5-turbo",
