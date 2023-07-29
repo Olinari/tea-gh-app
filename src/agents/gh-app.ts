@@ -6,8 +6,6 @@ import OpenAIService from "../services/open-ai-service.js";
 class GitHubApp {
   private privateKeyPath = process.env.PRIVATE_KEY_PATH as string;
   private webhookSecret = process.env.WEBHOOK_SECRET;
-  private messagePath = "./message.md";
-  readonly messageForNewPRs: string;
   readonly appId = process.env.APP_ID;
   readonly privateKey = fs.readFileSync(this.privateKeyPath, "utf8");
   private app: Ocktokit;
@@ -22,8 +20,6 @@ class GitHubApp {
       throw new Error("Missing required environment variable. See README.md");
     }
 
-    this.messageForNewPRs = fs.readFileSync(this.messagePath, "utf8");
-
     this.app = new Ocktokit({
       appId: this.appId,
       privateKey: this.privateKey,
@@ -36,10 +32,6 @@ class GitHubApp {
   }
 
   private initializeWebhooks(): void {
-    this.app.webhooks.onAny(({ id, name, payload }) => {
-      console.log(name, "event received");
-    });
-
     this.app.webhooks.on(
       "pull_request.opened",
       async ({ octokit, payload }) => {
