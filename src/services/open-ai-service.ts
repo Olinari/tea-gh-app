@@ -40,7 +40,7 @@ export default class OpenAIService implements IOpenAIService {
         {
           role: "user",
           content:
-            "Given the following line of code, generate a possible corresponding JIRA ticket, in json format of the  structure: {title:...,description:...,acceptanceCriteria:...} ",
+            "Given the following diff, generate a possible corresponding user story. e.g as a user I would like to",
         },
         {
           role: "user",
