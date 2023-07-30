@@ -40,7 +40,6 @@ class GitHubApp {
         );
         const diff = await axios.get(payload.pull_request.diff_url);
         const comment = await this.openAi.explainCode({ code: diff.data });
-
         try {
           await octokit.rest.issues.createComment({
             owner: payload.repository.owner.login,
