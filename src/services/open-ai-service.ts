@@ -50,6 +50,6 @@ export default class OpenAIService implements IOpenAIService {
       model: "gpt-3.5-turbo",
     });
 
-    return JSON.parse(data.choices?.[0].message.content);
+    return data.choices?.[0].message.content;
   };
 }
