@@ -40,7 +40,7 @@ export default class OpenAIService implements IOpenAIService {
         {
           role: "user",
           content:
-            "Given the following line of code, generate a possible corresponding use story. e.g as a use I would like to",
+            "Given the following line of code, generate a possible corresponding user story. e.g as a user I would like to",
         },
         {
           role: "user",
