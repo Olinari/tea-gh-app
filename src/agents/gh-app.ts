@@ -39,6 +39,7 @@ class GitHubApp {
           `Received a pull request event for #${payload.pull_request.number}`,
         );
         const diff = await axios.get(payload.pull_request.diff_url);
+
         const comment = await this.openAi.explainCode({ code: diff.data });
 
         try {
