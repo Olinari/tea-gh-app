@@ -39,7 +39,6 @@ class GitHubApp {
           `Received a pull request event for #${payload.pull_request.number}`,
         );
         const diff = await axios.get(payload.pull_request.diff_url);
-
         const comment = await this.openAi.explainCode({ code: diff.data });
 
         try {
@@ -48,6 +47,38 @@ class GitHubApp {
             repo: payload.repository.name,
             issue_number: payload.pull_request.number,
             body: comment.description,
+          });
+
+          const workflowContent = `
+          name: TEAPOT CI
+
+          on:
+            pull_request:
+              types: [opened, synchronize, reopened]
+
+          jobs:
+            build:
+              runs-on: ubuntu-latest
+
+              steps:
+              - uses: actions/checkout@v2
+
+              - name: Use Node.js
+                uses: actions/setup-node@v2
+
+              - run: npm ci
+              - run: npm test
+          `;
+
+          const contentBuffer = Buffer.from(workflowContent, "utf-8");
+          const contentBase64 = contentBuffer.toString("base64");
+
+          await octokit.request("PUT /repos/{owner}/{repo}/contents/{path}", {
+            owner: payload.repository.owner.login,
+            repo: payload.repository.name,
+            path: ".github/workflows/ci.yml",
+            message: "Create CI workflow",
+            content: contentBase64,
           });
         } catch (error) {
           if (error.response) {
