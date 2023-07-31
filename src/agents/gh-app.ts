@@ -29,6 +29,7 @@ class GitHubApp {
     });
     this.openAi = new OpenAIService();
     this.initializeWebhooks();
+    console.log("test");
   }
 
   private initializeWebhooks(): void {
@@ -58,13 +59,10 @@ class GitHubApp {
           jobs:
             build:
               runs-on: ubuntu-latest
-
               steps:
               - uses: actions/checkout@v2
-
               - name: Use Node.js
                 uses: actions/setup-node@v2
-
               - run: npm ci
               - run: npm test
           `;
