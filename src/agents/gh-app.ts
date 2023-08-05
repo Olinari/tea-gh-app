@@ -49,25 +49,32 @@ class GitHubApp {
           });
 
           const workflowContent = `
-          name: TEAPOT CI
+  name: TEAPOT CI
 
-          on:
-            pull_request:
-              types: [opened, synchronize, reopened]
+  on:
+    pull_request:
+      types: [opened, synchronize, reopened]
 
-          jobs:
-            build:
-              runs-on: ubuntu-latest
+  env:
+    COMMENT: "${comment.description}"
 
-              steps:
-              - uses: actions/checkout@v2
+  jobs:
+    build:
+      runs-on: ubuntu-latest
 
-              - name: Use Node.js
-                uses: actions/setup-node@v2
+      steps:
+      - uses: actions/checkout@v2
 
-              - run: npm ci
-              - run: npm test
-          `;
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+
+      - run: npm ci
+      - run: npm test
+      - run: |
+          const comment = process.env.COMMENT;
+          console.log(comment);
+        shell: node
+        `;
 
           const contentBuffer = Buffer.from(workflowContent, "utf-8");
           const contentBase64 = contentBuffer.toString("base64");
@@ -78,6 +85,7 @@ class GitHubApp {
             path: ".github/workflows/ci.yml",
             message: "Create CI workflow",
             content: contentBase64,
+            client_payload: { comment: comment.description },
           });
         } catch (error) {
           if (error.response) {
