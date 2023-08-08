@@ -1,7 +1,8 @@
 import fs from "fs";
 import { App as Ocktokit } from "octokit";
 import axios from "axios";
-import OpenAIService from "../services/open-ai-service.js";
+import OpenAIService from "../../services/open-ai-service.js";
+import { remotePrPoller } from "./remote-repository/pull-request-poll.js";
 
 class GitHubApp {
   private privateKeyPath = process.env.PRIVATE_KEY_PATH as string;
@@ -29,6 +30,7 @@ class GitHubApp {
     });
     this.openAi = new OpenAIService();
     this.initializeWebhooks();
+    remotePrPoller();
   }
 
   private initializeWebhooks(): void {
