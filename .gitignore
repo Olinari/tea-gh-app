@@ -24,4 +24,4 @@ dist-ssr
 *.sln
 *.sw?
 secrets/*
-secrets/tea-gh-app.2023-07-28.private-key.pem
+

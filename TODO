@@ -1,0 +1,4 @@
+[ ] create an embedding database of PRs
+[ ] create an embedding database of issues
+[ ] add a function that finds the issue correlating to each PR
+

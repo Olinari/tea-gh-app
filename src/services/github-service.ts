@@ -6,11 +6,15 @@ interface IGithubService {
   openPullRequest: (branchName: string) => Promise<any>;
 }
 
-class GithubService implements IGithubService {
+export default class GithubService implements IGithubService {
   public api: IApiProvider;
 
-  constructor(api: IApiProvider) {
-    this.api = api;
+  constructor() {
+    this.api = new ApiProvider({
+      //@ts-ignore
+      baseURL: process.env.GITHUB_API_URL,
+      authorization: `token ${process.env.GITHUB_TOKEN}`,
+    });
   }
 
   getRepos = () => {
@@ -30,14 +34,12 @@ class GithubService implements IGithubService {
     };
     return this.api.post(`/repos/${repoFullName}/pulls`, data);
   };
+
+  getPullRequests = () => {
+    const repoFullName = "owner/repo";
+    return this.api.get(`/repos/${repoFullName}/pulls`);
+  };
 }
 
 if (!process.env.GITHUB_API_URL)
   throw new Error("GITHUB_API_URL is not defined");
-
-const api = new ApiProvider({
-  baseURL: process.env.GITHUB_API_URL,
-  authorization: `token ${process.env.GITHUB_TOKEN}`,
-});
-
-export default new GithubService(api.client);

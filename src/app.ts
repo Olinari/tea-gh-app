@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import http from "http";
 import { createNodeMiddleware } from "@octokit/webhooks";
-import GitHubApp from "./agents/gh-app.js";
+import GitHubApp from "./agents/gh-app/gh-app.js";
 
 dotenv.config();
 
